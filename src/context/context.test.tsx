@@ -2,6 +2,23 @@ import React, { useEffect } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { AppProvider, useAppState, useAppDispatch } from '.';
 
+const mockItems = [
+  {
+    title: 'iPhone',
+    description: 'Vendo iPhone',
+    price: '740',
+    email: 'my@mail.com',
+    image: 'https://exampe.com/image.png',
+  },
+  {
+    title: 'Samsung',
+    description: 'Vendo Samsung',
+    price: '900',
+    email: 'my@mail.com',
+    image: 'https://exampe.com/image.png',
+  },
+];
+
 describe('<AppProvider />', () => {
   it('Context inits with default props', () => {
     const Consumer = () => {
@@ -49,22 +66,7 @@ describe('<AppProvider />', () => {
             onClick={() => {
               dispatch({
                 type: 'FETCH_ITEMS',
-                payload: [
-                  {
-                    title: 'iPhone',
-                    description: 'Vendo iPhone',
-                    price: '740',
-                    email: 'my@mail.com',
-                    image: 'https://exampe.com/image.png',
-                  },
-                  {
-                    title: 'Samsung',
-                    description: 'Vendo Samsung',
-                    price: '740',
-                    email: 'my@mail.com',
-                    image: 'https://exampe.com/image.png',
-                  },
-                ],
+                payload: mockItems,
               });
             }}
           >
@@ -102,22 +104,7 @@ describe('<AppProvider />', () => {
       useEffect(() => {
         dispatch({
           type: 'FETCH_ITEMS',
-          payload: [
-            {
-              title: 'iPhone',
-              description: 'Vendo iPhone',
-              price: '740',
-              email: 'my@mail.com',
-              image: 'https://exampe.com/image.png',
-            },
-            {
-              title: 'Samsung',
-              description: 'Vendo Samsung',
-              price: '740',
-              email: 'my@mail.com',
-              image: 'https://exampe.com/image.png',
-            },
-          ],
+          payload: mockItems,
         });
       }, []);
 
@@ -186,6 +173,136 @@ describe('<AppProvider />', () => {
     fireEvent.click(loadMore);
 
     expect(screen.getByTestId('max.items').innerHTML).toEqual('10');
+  });
+
+  describe('Submit Global Search', () => {
+    it('Filters by price', () => {
+      const Consumer = () => {
+        const state = useAppState();
+        const dispatch = useAppDispatch();
+
+        useEffect(() => {
+          dispatch({
+            type: 'UPDATE_SELECTED_CATEGORY',
+            payload: {
+              selectedCategory: 'price',
+            },
+          });
+          dispatch({
+            type: 'FETCH_ITEMS',
+            payload: mockItems,
+          });
+        }, []);
+
+        return (
+          <div>
+            <button
+              data-testid="search"
+              onClick={() => {
+                dispatch({ type: 'SUBMIT_GLOBAL_SEARCH', payload: { text: '900' } });
+              }}
+            >
+              Filter
+            </button>
+            <button
+              data-testid="reset.search"
+              onClick={() => {
+                dispatch({ type: 'SUBMIT_GLOBAL_SEARCH', payload: { text: '' } });
+              }}
+            >
+              Reset
+            </button>
+            <div data-testid="filtered.items">{state.filteredItems.join(', ')}</div>
+            <div data-testid="max.items">{state.maxItems}</div>
+          </div>
+        );
+      };
+
+      render(
+        <AppProvider>
+          <Consumer />
+        </AppProvider>,
+      );
+
+      const search = screen.getByTestId('search');
+      const resetSearch = screen.getByTestId('reset.search');
+
+      expect(screen.getByTestId('filtered.items').innerHTML).toEqual('iPhone, Samsung');
+
+      fireEvent.click(search);
+
+      expect(screen.getByTestId('filtered.items').innerHTML).toEqual('Samsung');
+      expect(screen.getByTestId('max.items').innerHTML).toEqual('5');
+
+      fireEvent.click(resetSearch);
+
+      expect(screen.getByTestId('filtered.items').innerHTML).toEqual('iPhone, Samsung');
+      expect(screen.getByTestId('max.items').innerHTML).toEqual('5');
+    });
+
+    it('Filters by title, description or email', () => {
+      const Consumer = () => {
+        const state = useAppState();
+        const dispatch = useAppDispatch();
+
+        useEffect(() => {
+          dispatch({
+            type: 'UPDATE_SELECTED_CATEGORY',
+            payload: {
+              selectedCategory: 'description',
+            },
+          });
+          dispatch({
+            type: 'FETCH_ITEMS',
+            payload: mockItems,
+          });
+        }, []);
+
+        return (
+          <div>
+            <button
+              data-testid="search"
+              onClick={() => {
+                dispatch({ type: 'SUBMIT_GLOBAL_SEARCH', payload: { text: 'iPhone' } });
+              }}
+            >
+              Filter
+            </button>
+            <button
+              data-testid="reset.search"
+              onClick={() => {
+                dispatch({ type: 'SUBMIT_GLOBAL_SEARCH', payload: { text: '' } });
+              }}
+            >
+              Reset
+            </button>
+            <div data-testid="filtered.items">{state.filteredItems.join(', ')}</div>
+            <div data-testid="max.items">{state.maxItems}</div>
+          </div>
+        );
+      };
+
+      render(
+        <AppProvider>
+          <Consumer />
+        </AppProvider>,
+      );
+
+      const search = screen.getByTestId('search');
+      const resetSearch = screen.getByTestId('reset.search');
+
+      expect(screen.getByTestId('filtered.items').innerHTML).toEqual('iPhone, Samsung');
+
+      fireEvent.click(search);
+
+      expect(screen.getByTestId('filtered.items').innerHTML).toEqual('iPhone');
+      expect(screen.getByTestId('max.items').innerHTML).toEqual('5');
+
+      fireEvent.click(resetSearch);
+
+      expect(screen.getByTestId('filtered.items').innerHTML).toEqual('iPhone, Samsung');
+      expect(screen.getByTestId('max.items').innerHTML).toEqual('5');
+    });
   });
 
   it('Show modal', () => {
