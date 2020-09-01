@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "outDir": "./dist/",
+      "sourceMap": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "moduleResolution": "node",
+      "module": "esnext",
+      "target": "es5",
+      "jsx": "react",
+      "strict": true,
+      "paths": {
+        "@/*": ["./src/*"]
+      }
+    }
+  }
