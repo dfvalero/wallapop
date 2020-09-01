@@ -81,7 +81,7 @@ export const Selector = ({ selected, options, onSelect }: SelectorProps) => {
       <Icon open={open} />
       <Select open={open} onClick={(e) => e.stopPropagation()}>
         {options.map((option) => (
-          <Option key={option} onClick={() => select(option)}>
+          <Option key={option} onClick={() => select(option)} data-id="selector.option">
             {capitalize(option)}
           </Option>
         ))}

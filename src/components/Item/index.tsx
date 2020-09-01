@@ -53,7 +53,7 @@ export const Item: FC<ItemProps> = ({ title, description, price, email, image, f
     <Box {...rest} data-id="item">
       <Image src={image} alt={title} />
       <Content>
-        <Icon favorited={favorited ? 1 : 0} onClick={onFavorited} />
+        <Icon favorited={favorited ? 1 : 0} onClick={onFavorited} data-id="icon.favorite" />
         <TitleBlock>
           <Heading as="h2">{title}</Heading>
           <Heading as="h3">{price} €</Heading>
