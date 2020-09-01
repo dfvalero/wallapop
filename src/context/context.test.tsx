@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { AppProvider, useAppState, useAppDispatch } from '.';
 
@@ -94,6 +94,100 @@ describe('<AppProvider />', () => {
     expect(screen.getByTestId('max.items').innerHTML).toEqual('5');
   });
 
+  it('Load More', () => {
+    const Consumer = () => {
+      const state = useAppState();
+      const dispatch = useAppDispatch();
+
+      useEffect(() => {
+        dispatch({
+          type: 'FETCH_ITEMS',
+          payload: [
+            {
+              title: 'iPhone',
+              description: 'Vendo iPhone',
+              price: '740',
+              email: 'my@mail.com',
+              image: 'https://exampe.com/image.png',
+            },
+            {
+              title: 'Samsung',
+              description: 'Vendo Samsung',
+              price: '740',
+              email: 'my@mail.com',
+              image: 'https://exampe.com/image.png',
+            },
+          ],
+        });
+      }, []);
+
+      return (
+        <div>
+          <button
+            data-testid="toggle.favorites"
+            onClick={() => {
+              dispatch({ type: 'TOGGLE_FAVORITES', payload: 'iPhone' });
+            }}
+          >
+            Start
+          </button>
+          <div data-testid="favorites">{state.favorites.join(' ,')}</div>
+        </div>
+      );
+    };
+
+    render(
+      <AppProvider>
+        <Consumer />
+      </AppProvider>,
+    );
+
+    const toggleFavorites = screen.getByTestId('toggle.favorites');
+
+    expect(screen.getByTestId('favorites').innerHTML).toEqual('');
+
+    fireEvent.click(toggleFavorites);
+
+    expect(screen.getByTestId('favorites').innerHTML).toEqual('iPhone');
+
+    fireEvent.click(toggleFavorites);
+
+    expect(screen.getByTestId('favorites').innerHTML).toEqual('');
+  });
+
+  it('Toggle Favorites', () => {
+    const Consumer = () => {
+      const state = useAppState();
+      const dispatch = useAppDispatch();
+
+      return (
+        <div>
+          <button
+            data-testid="load.more"
+            onClick={() => {
+              dispatch({ type: 'LOAD_MORE' });
+            }}
+          >
+            Load More
+          </button>
+          <div data-testid="max.items">{state.maxItems}</div>
+        </div>
+      );
+    };
+
+    render(
+      <AppProvider>
+        <Consumer />
+      </AppProvider>,
+    );
+
+    const loadMore = screen.getByTestId('load.more');
+
+    fireEvent.click(loadMore);
+
+    expect(screen.getByTestId('max.items').innerHTML).toEqual('10');
+  });
+
   it('Show modal', () => {
     const Consumer = () => {
       const state = useAppState();
@@ -129,6 +223,47 @@ describe('<AppProvider />', () => {
     fireEvent.click(showModal);
 
     expect(screen.queryByTestId('is.modal.visible')).toBeTruthy();
+  });
+
+  it('Close modal', () => {
+    const Consumer = () => {
+      const state = useAppState();
+      const dispatch = useAppDispatch();
+
+      useEffect(() => {
+        dispatch({ type: 'OPEN_MODAL' });
+      }, []);
+
+      return (
+        <div>
+          ${state.isModalOpen && <div data-testid="is.modal.visible">Modal</div>}
+          <button
+            data-testid="close.modal"
+            onClick={() => {
+              dispatch({
+                type: 'CLOSE_MODAL',
+              });
+            }}
+          >
+            Show Modal Item
+          </button>
+        </div>
+      );
+    };
+
+    render(
+      <AppProvider>
+        <Consumer />
+      </AppProvider>,
+    );
+
+    const closeModal = screen.getByTestId('close.modal');
+
+    expect(screen.queryByTestId('is.modal.visible')).toBeTruthy();
+
+    fireEvent.click(closeModal);
+
+    expect(screen.queryByTestId('is.modal.visible')).toBeNull();
   });
 });
 

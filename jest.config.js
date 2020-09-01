@@ -6,7 +6,13 @@ module.exports = {
     '^.+\\.scss$': '<rootDir>/jest/styleFileTransformer.js',
     '^.+\\.svg$': 'jest-svg-transformer',
   },
-  collectCoverageFrom: ['src/**/*.{ts,tsx}'],
+  collectCoverageFrom: [
+    'src/**/*.{ts,tsx}',
+    '!src/index.tsx',
+    '!src/App.tsx',
+    '!src/views/**/*.{ts,tsx}',
+    '!src/services/**/*.{ts,tsx}',
+  ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
