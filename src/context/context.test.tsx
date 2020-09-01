@@ -37,6 +37,63 @@ describe('<AppProvider />', () => {
     expect(screen.getByTestId('selected.category').innerHTML).toEqual('title');
   });
 
+  it('Fetch Items', () => {
+    const Consumer = () => {
+      const state = useAppState();
+      const dispatch = useAppDispatch();
+
+      return (
+        <div>
+          <button
+            data-testid="fetch.items"
+            onClick={() => {
+              dispatch({
+                type: 'FETCH_ITEMS',
+                payload: [
+                  {
+                    title: 'iPhone',
+                    description: 'Vendo iPhone',
+                    price: '740',
+                    email: 'my@mail.com',
+                    image: 'https://exampe.com/image.png',
+                  },
+                  {
+                    title: 'Samsung',
+                    description: 'Vendo Samsung',
+                    price: '740',
+                    email: 'my@mail.com',
+                    image: 'https://exampe.com/image.png',
+                  },
+                ],
+              });
+            }}
+          >
+            Fetch Items
+          </button>
+          <div data-testid="by.id.length">{Object.keys(state.byId).length}</div>
+          <div data-testid="items.lenth">{state.items.length}</div>
+          <div data-testid="filtered.items.length">{state.filteredItems.length}</div>
+          <div data-testid="max.items">{state.maxItems}</div>
+        </div>
+      );
+    };
+
+    render(
+      <AppProvider>
+        <Consumer />
+      </AppProvider>,
+    );
+
+    const fetchItems = screen.getByTestId('fetch.items');
+
+    fireEvent.click(fetchItems);
+
+    expect(screen.getByTestId('by.id.length').innerHTML).toEqual('2');
+    expect(screen.getByTestId('items.lenth').innerHTML).toEqual('2');
+    expect(screen.getByTestId('filtered.items.length').innerHTML).toEqual('2');
+    expect(screen.getByTestId('max.items').innerHTML).toEqual('5');
+  });
+
   it('Show modal', () => {
     const Consumer = () => {
       const state = useAppState();
