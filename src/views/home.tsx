@@ -15,7 +15,6 @@ const Home = () => {
     getItems().then((data) => {
       dispatch({ type: 'FETCH_ITEMS', payload: data });
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

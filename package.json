@@ -9,6 +9,7 @@
     "build": "cross-env NODE_ENV=production webpack",
     "typecheck": "tsc --noEmit --project tsconfig.json",
     "format": "prettier -l --write \"**/*.{ts,tsx,js,jsx,json,less,css,md}\"",
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
     "test": "jest",
     "test:e2e": "cypress run",
     "start": "serve dist"
@@ -27,10 +28,16 @@
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",
     "@types/styled-components": "^5.1.2",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
     "clean-webpack-plugin": "^3.0.0",
     "cross-env": "^7.0.0",
     "cypress": "^4.0.2",
     "dotenv": "^8.2.0",
+    "eslint": "^7.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.6",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^4.2.5",
     "jest": "^25.1.0",
@@ -47,7 +54,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "yarn typecheck && yarn test",
+      "pre-push": "yarn typecheck && yarn lint && yarn test",
       "pre-commit": "pretty-quick --staged"
     }
   }

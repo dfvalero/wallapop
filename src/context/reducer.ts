@@ -3,8 +3,8 @@ import { Action, State, Categories } from './types';
 export const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'FETCH_ITEMS': {
-      let byId: State['byId'] = {};
-      let items: string[] = [];
+      const byId: State['byId'] = {};
+      const items: string[] = [];
 
       action.payload.forEach((item) => {
         byId[item.title] = item;

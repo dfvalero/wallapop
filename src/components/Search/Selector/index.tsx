@@ -11,10 +11,6 @@ interface SelectorProps {
   onSelect: (option: Categories) => void;
 }
 
-interface SelectProps {
-  open: boolean;
-}
-
 const Wrapper = styled.div`
   position: relative;
   display: flex;
@@ -34,7 +30,7 @@ const Text = styled.div`
   margin-right: 4px;
 `;
 
-const Icon = styled(ChevronIcon)<SelectProps>`
+const Icon = styled(ChevronIcon)<{ open: boolean }>`
   display: block;
   width: 24px;
   height: 24px;
