@@ -56,7 +56,7 @@ export const FavoritesItems: FC = () => {
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
-  }
+  };
 
   const filtered = favorites.filter((item) => item.toLowerCase().includes(searchText.toLowerCase()));
 
@@ -64,7 +64,7 @@ export const FavoritesItems: FC = () => {
     <>
       {favorites.length === 0 && <Disclaimer>No Favorites</Disclaimer>}
       {favorites.length !== 0 && <SearchFavorites onChange={onChange} />}
-      {(favorites.length !== 0 && filtered.length === 0) && <Disclaimer>No Filtered Favorites</Disclaimer>}
+      {favorites.length !== 0 && filtered.length === 0 && <Disclaimer>No Filtered Favorites</Disclaimer>}
       {filtered.map((favorite) => {
         const actual = byId[favorite];
 

@@ -1,1 +1,1 @@
-window.scrollTo = () => { };
+window.scrollTo = () => {};
