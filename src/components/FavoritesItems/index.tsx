@@ -61,7 +61,7 @@ export const FavoritesItems: FC = () => {
   const filtered = favorites.filter((item) => item.toLowerCase().includes(searchText.toLowerCase()));
 
   return (
-    <>
+    <div data-id="favorites.items">
       {favorites.length === 0 && <Disclaimer>No Favorites</Disclaimer>}
       {favorites.length !== 0 && <SearchFavorites onChange={onChange} />}
       {favorites.length !== 0 && filtered.length === 0 && <Disclaimer>No Filtered Favorites</Disclaimer>}
@@ -69,15 +69,15 @@ export const FavoritesItems: FC = () => {
         const actual = byId[favorite];
 
         return (
-          <FavoriteItem key={actual.title}>
+          <FavoriteItem key={actual.title} data-id="favorite.item">
             <Image src={actual.image} alt={actual.title} />
             <Content>
               <Heading as="h5">{actual.title}</Heading>
-              <Icon onClick={() => onTrashClick(actual.title)} />
+              <Icon onClick={() => onTrashClick(actual.title)} data-id="trash.favorite" />
             </Content>
           </FavoriteItem>
         );
       })}
-    </>
+    </div>
   );
 };

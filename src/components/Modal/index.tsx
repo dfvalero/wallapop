@@ -47,9 +47,9 @@ const Icon = styled(TimesIcon)`
 export const Modal: FC<ModalProps> = ({ title, onClose, children }) => {
   return (
     <Overlay>
-      <Wrapper>
-        <Icon onClick={onClose} />
-        <Header>
+      <Wrapper data-id="modal">
+        <Icon onClick={onClose} data-id="modal.close" />
+        <Header data-id="modal.title">
           <Heading as="h2">{title}</Heading>
         </Header>
         {children}

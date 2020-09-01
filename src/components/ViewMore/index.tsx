@@ -11,7 +11,7 @@ const ViewMoreStyles = styled.div`
 
 export const ViewMore: FC<ViewMoreProps> = ({ ...rest }) => {
   return (
-    <ViewMoreStyles {...rest}>
+    <ViewMoreStyles {...rest} data-id="view.more">
       <Button>View More</Button>
     </ViewMoreStyles>
   );
