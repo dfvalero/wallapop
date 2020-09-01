@@ -10,6 +10,7 @@
 - [Testing](#testing)
   - [Unit tests](#unit-tests)
   - [E2E](#e2e)
+- [Tooling](#tooling)
 - [Deployment](#deployment)
 - [Notes](#notes)
 - [Next Steps](#next-steps)
@@ -80,6 +81,11 @@ yarn dev
 yarn test:e2e:run
 ```
 
+### Tooling
+
+This app uses [husky](https://github.com/typicode/husky#readme) in order to lint, typecheck and run all unit tests
+before pushing it to the repository.
+
 ## Deployment
 
 I'm using [Netlify](https://www.netlify.com/) to deploy the site manually.
@@ -94,7 +100,6 @@ Last Stable Version: [https://wallapop-test.netlify.app/](https://wallapop-test.
 - I didn't add Keyboard events in the Selector component.
 - Menu UI is too big for mobile.
 - I didn't implement the "search match highlight" in the item components.
--
 
 ## Next Steps
 
