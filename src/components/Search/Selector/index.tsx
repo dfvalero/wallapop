@@ -38,7 +38,7 @@ const Icon = styled(ChevronIcon)<{ open: boolean }>`
   transform: ${({ open }) => (open ? 'rotate(180deg)' : 'rotate(0deg)')};
 `;
 
-const Select = styled.div<SelectProps>`
+const Select = styled.div<{ open: boolean }>`
   display: ${({ open }) => (open ? 'block' : 'none')};
   position: absolute;
   bottom: -4px;
