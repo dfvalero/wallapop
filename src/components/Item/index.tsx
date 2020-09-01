@@ -50,7 +50,7 @@ const Icon = styled(StarIcon)<{ favorited: 1 | 0 }>`
 
 export const Item: FC<ItemProps> = ({ title, description, price, email, image, favorited, onFavorited, ...rest }) => {
   return (
-    <Box {...rest}>
+    <Box {...rest} data-id="item">
       <Image src={image} alt={title} />
       <Content>
         <Icon favorited={favorited ? 1 : 0} onClick={onFavorited} />

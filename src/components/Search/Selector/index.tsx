@@ -76,7 +76,7 @@ export const Selector = ({ selected, options, onSelect }: SelectorProps) => {
   };
 
   return (
-    <Wrapper onClick={toggle}>
+    <Wrapper onClick={toggle} data-id="selector">
       <Text>{capitalize(selected)}</Text>
       <Icon open={open} />
       <Select open={open} onClick={(e) => e.stopPropagation()}>

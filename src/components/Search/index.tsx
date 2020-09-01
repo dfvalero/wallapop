@@ -32,7 +32,7 @@ export const Search = () => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper data-id="global.search">
       <SearchBox value={text} onChange={onChange} onKeyDown={onKeyDown} />
       <Selector selected={selectedCategory} options={categories} onSelect={onSelect} />
     </Wrapper>

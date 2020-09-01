@@ -25,7 +25,9 @@ export const FavoritesBox = () => {
 
   return (
     <Wrapper>
-      <Box onClick={() => dispatch({ type: 'OPEN_MODAL' })}>{favorites.length} Favorites</Box>
+      <Box data-id="favorites.count" onClick={() => dispatch({ type: 'OPEN_MODAL' })}>
+        {favorites.length} Favorites
+      </Box>
     </Wrapper>
   );
 };

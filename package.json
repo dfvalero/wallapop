@@ -7,11 +7,12 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server",
     "build": "cross-env NODE_ENV=production webpack",
-    "typecheck": "tsc --noEmit --project tsconfig.json",
+    "typecheck": "tsc --noEmit --project tsconfig.json && tsc --noEmit --project cypress/tsconfig.json",
     "format": "prettier -l --write \"**/*.{ts,tsx,js,jsx,json,less,css,md}\"",
     "lint": "eslint 'src/**/*.{ts,tsx}'",
     "test": "jest",
-    "test:e2e": "cypress run",
+    "test:e2e:open": "cypress open",
+    "test:e2e:run": "cypress run",
     "start": "serve dist"
   },
   "dependencies": {
@@ -32,7 +33,7 @@
     "@typescript-eslint/parser": "^4.0.1",
     "clean-webpack-plugin": "^3.0.0",
     "cross-env": "^7.0.0",
-    "cypress": "^4.0.2",
+    "cypress": "^5.0.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.8.0",
     "eslint-config-prettier": "^6.11.0",
